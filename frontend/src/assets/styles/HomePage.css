@@ -1,0 +1,18 @@
+/* File: src/assets/styles/HomePage.css */
+/* Description: Custom styles for the Home Page. */
+
+.hero-section {
+  background: linear-gradient(rgba(217, 83, 79, 0.7), rgba(217, 83, 79, 0.7)), url('https://images.unsplash.com/photo-1582719478212-c857e540b6ac?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+  background-size: cover;
+  min-height: 60vh;
+  padding: 4rem 0;
+}
+
+.card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
+}

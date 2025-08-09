@@ -1,0 +1,14 @@
+/* File: src/assets/styles/RegisterPage.css */
+/* Description: Shared custom styles for registration pages. */
+
+.register-container {
+  background-color: #f8f9fa;
+  padding: 50px 0;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.card-title {
+    font-weight: 300;
+}

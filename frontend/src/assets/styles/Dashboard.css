@@ -1,0 +1,73 @@
+/* File: src/assets/styles/Dashboard.css */
+/* Description: A custom, attractive theme for all dashboard pages. */
+
+.dashboard-container {
+  background-color: #f4f7f6; /* A soft, light grey background */
+  padding: 40px 15px; /* Add padding for spacing */
+  min-height: 100%;
+  flex-grow: 1;
+}
+
+.dashboard-card {
+  border: none;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 1.5rem; /* Add space between cards */
+}
+
+.dashboard-card .card-header {
+  background-color: #d9534f; /* Our theme red */
+  color: white;
+  font-weight: 500;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 1rem 1.5rem;
+}
+
+/* Admin Stat Cards Styling */
+.stat-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: all 0.3s ease-in-out;
+  height: 100%;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+.stat-card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #d9534f; /* Theme red */
+}
+
+.stat-card-title {
+  font-size: 1rem;
+  color: #6c757d;
+  margin-bottom: 5px;
+}
+
+.stat-card-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #343a40;
+}
+
+/* Table Styling */
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.table-dark {
+    background-color: #343a40;
+}
+
+.table {
+    margin-bottom: 0; /* Remove default bottom margin from tables inside cards */
+}

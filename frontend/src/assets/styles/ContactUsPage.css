@@ -1,0 +1,31 @@
+/* File: src/assets/styles/ContactUsPage.css */
+/* Description: Custom styles for the Contact Us Page. */
+
+.contact-header {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1528747045269-390a322c39b9?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+  background-size: cover;
+  padding: 4rem 0;
+}
+
+.contact-info-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.contact-info-item i {
+  font-size: 2rem;
+  color: #d9534f; /* Theme red color */
+  margin-right: 1.5rem;
+  margin-top: 5px;
+}
+
+.contact-info-item h5 {
+  margin-bottom: 0.25rem;
+  font-weight: bold;
+}
+
+.contact-info-item p {
+  margin-bottom: 0;
+  color: #6c757d;
+}
