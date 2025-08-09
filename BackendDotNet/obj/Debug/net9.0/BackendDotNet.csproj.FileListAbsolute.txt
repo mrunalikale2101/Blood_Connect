@@ -56,3 +56,15 @@ D:\BLOOD CONNECT FINAL\BLOODCONNECT FINAL\BackendDotNet\obj\Debug\net9.0\refint\
 D:\BLOOD CONNECT FINAL\BLOODCONNECT FINAL\BackendDotNet\obj\Debug\net9.0\BackendDotNet.pdb
 D:\BLOOD CONNECT FINAL\BLOODCONNECT FINAL\BackendDotNet\obj\Debug\net9.0\BackendDotNet.genruntimeconfig.cache
 D:\BLOOD CONNECT FINAL\BLOODCONNECT FINAL\BackendDotNet\obj\Debug\net9.0\ref\BackendDotNet.dll
+C:\Users\LENOVO\Desktop\Blood_Connect\Blood_Connect\BackendDotNet\obj\Debug\net9.0\BackendDotNet.csproj.AssemblyReference.cache
+C:\Users\LENOVO\Desktop\Blood_Connect\Blood_Connect\BackendDotNet\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Users\LENOVO\Desktop\Blood_Connect\Blood_Connect\BackendDotNet\obj\Debug\net9.0\BackendDotNet.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LENOVO\Desktop\Blood_Connect\Blood_Connect\BackendDotNet\obj\Debug\net9.0\BackendDotNet.AssemblyInfoInputs.cache
+C:\Users\LENOVO\Desktop\Blood_Connect\Blood_Connect\BackendDotNet\obj\Debug\net9.0\BackendDotNet.AssemblyInfo.cs
+C:\Users\LENOVO\Desktop\Blood_Connect\Blood_Connect\BackendDotNet\obj\Debug\net9.0\BackendDotNet.csproj.CoreCompileInputs.cache
+C:\Users\LENOVO\Desktop\Blood_Connect\Blood_Connect\BackendDotNet\obj\Debug\net9.0\BackendDotNet.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\LENOVO\Desktop\Blood_Connect\Blood_Connect\BackendDotNet\obj\Debug\net9.0\BackendDotNet.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\LENOVO\Desktop\Blood_Connect\Blood_Connect\BackendDotNet\obj\Debug\net9.0\BackendDotNet.sourcelink.json
+C:\Users\LENOVO\Desktop\Blood_Connect\Blood_Connect\BackendDotNet\obj\Debug\net9.0\BackendDotNet.dll
+C:\Users\LENOVO\Desktop\Blood_Connect\Blood_Connect\BackendDotNet\obj\Debug\net9.0\refint\BackendDotNet.dll
+C:\Users\LENOVO\Desktop\Blood_Connect\Blood_Connect\BackendDotNet\obj\Debug\net9.0\BackendDotNet.pdb

@@ -8,7 +8,7 @@ namespace BackendDotNet.Controllers
     public class PublicController : ControllerBase
     {
         [HttpPost("contact")]
-        public async Task<ActionResult<string>> SubmitContactMessage([FromBody] ContactMessageRequestDto requestDto)
+        public ActionResult<string> SubmitContactMessage([FromBody] ContactMessageRequestDto requestDto)
         {
             try
             {

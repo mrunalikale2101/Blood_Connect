@@ -16,27 +16,21 @@ namespace BackendDotNet.Repositories
         public async Task<User?> GetByIdAsync(long id)
         {
             return await _context.Users
-                .Include(u => u.Role)
-                .Include(u => u.DonorProfile)
-                .Include(u => u.HospitalProfile)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.UserId == id);
         }
 
         public async Task<User?> GetByEmailAsync(string email)
         {
             return await _context.Users
-                .Include(u => u.Role)
-                .Include(u => u.DonorProfile)
-                .Include(u => u.HospitalProfile)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
             return await _context.Users
-                .Include(u => u.Role)
-                .Include(u => u.DonorProfile)
-                .Include(u => u.HospitalProfile)
+                .AsNoTracking()
                 .ToListAsync();
         }
 
@@ -67,7 +61,8 @@ namespace BackendDotNet.Repositories
         public async Task<long> CountByRoleNameAsync(string roleName)
         {
             return await _context.Users
-                .Where(u => u.Role.RoleName == roleName)
+                .Join(_context.Roles, u => u.RoleId, r => r.RoleId, (u, r) => new { User = u, Role = r })
+                .Where(x => x.Role.RoleName == roleName)
                 .CountAsync();
         }
 

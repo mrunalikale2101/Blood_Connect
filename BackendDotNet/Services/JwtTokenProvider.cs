@@ -23,7 +23,7 @@ namespace BackendDotNet.Services
             _expirationMinutes = int.Parse(_configuration["Jwt:ExpirationMinutes"] ?? "60");
         }
 
-        public string GenerateToken(User user)
+        public string GenerateToken(User user, string roleName)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_secretKey);
@@ -32,7 +32,7 @@ namespace BackendDotNet.Services
             {
                 new(ClaimTypes.Email, user.Email),
                 new(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-                new(ClaimTypes.Role, user.Role.RoleName),
+                new(ClaimTypes.Role, roleName),
                 new("userId", user.UserId.ToString()),
                 new("roleId", user.RoleId.ToString())
             };

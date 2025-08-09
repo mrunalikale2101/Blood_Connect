@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BackendDotNet.Models
 {
@@ -35,10 +36,19 @@ namespace BackendDotNet.Models
         [ForeignKey("RoleId")]
         public virtual Role Role { get; set; } = null!;
 
+        [JsonIgnore]
         public virtual DonorProfile? DonorProfile { get; set; }
+        
+        [JsonIgnore]
         public virtual HospitalProfile? HospitalProfile { get; set; }
+        
+        [JsonIgnore]
         public virtual ICollection<BloodRequest> BloodRequests { get; set; } = new List<BloodRequest>();
+        
+        [JsonIgnore]
         public virtual ICollection<DonationAppointment> DonationAppointments { get; set; } = new List<DonationAppointment>();
+        
+        [JsonIgnore]
         public virtual ICollection<DonationRecord> DonationRecords { get; set; } = new List<DonationRecord>();
     }
 }

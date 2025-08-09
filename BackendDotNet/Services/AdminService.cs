@@ -13,6 +13,8 @@ namespace BackendDotNet.Services
         private readonly IUserRepository _userRepository;
         private readonly IDonorProfileRepository _donorProfileRepository;
         private readonly IHospitalProfileRepository _hospitalProfileRepository;
+        private readonly IDonationAppointmentRepository _donationAppointmentRepository;
+        private readonly IDonationRecordRepository _donationRecordRepository;
         private readonly IMapper _mapper;
 
         public AdminService(
@@ -21,6 +23,8 @@ namespace BackendDotNet.Services
             IUserRepository userRepository,
             IDonorProfileRepository donorProfileRepository,
             IHospitalProfileRepository hospitalProfileRepository,
+            IDonationAppointmentRepository donationAppointmentRepository,
+            IDonationRecordRepository donationRecordRepository,
             IMapper mapper)
         {
             _bloodInventoryRepository = bloodInventoryRepository;
@@ -28,6 +32,8 @@ namespace BackendDotNet.Services
             _userRepository = userRepository;
             _donorProfileRepository = donorProfileRepository;
             _hospitalProfileRepository = hospitalProfileRepository;
+            _donationAppointmentRepository = donationAppointmentRepository;
+            _donationRecordRepository = donationRecordRepository;
             _mapper = mapper;
         }
 
@@ -122,16 +128,51 @@ namespace BackendDotNet.Services
 
         public async Task<List<DonationAppointmentDto>> GetAllScheduledAppointmentsAsync()
         {
-            // TODO: Implement when DonationAppointmentRepository is available
-            // var appointments = await _donationAppointmentRepository.GetByStatusAsync("SCHEDULED");
-            // return appointments.Select(ConvertAppointmentToDto).ToList();
-            return new List<DonationAppointmentDto>();
+            var appointments = await _donationAppointmentRepository.GetByStatusAsync("SCHEDULED");
+            return appointments.Select(ConvertAppointmentToDto).ToList();
         }
 
         public async Task<DonationRecordDto> CompleteDonationAppointmentAsync(long appointmentId)
         {
-            // TODO: Implement when DonationAppointmentRepository and DonationRecordRepository are available
-            throw new NotImplementedException("Appointment completion will be implemented with donation repositories");
+            var appointment = await _donationAppointmentRepository.GetByIdAsync(appointmentId);
+            if (appointment == null)
+            {
+                throw new KeyNotFoundException($"Appointment with id {appointmentId} not found");
+            }
+
+            if (appointment.Status != "SCHEDULED")
+            {
+                throw new InvalidOperationException("Only scheduled appointments can be completed");
+            }
+
+            // Update appointment status
+            appointment.Status = "COMPLETED";
+            await _donationAppointmentRepository.UpdateAsync(appointment);
+
+            // Create donation record
+            var donationRecord = new DonationRecord
+            {
+                DonorUserId = appointment.DonorUserId,
+                DonationDate = appointment.AppointmentDate,
+                UnitsDonated = 1, // Default to 1 unit
+                CreatedAt = DateTime.UtcNow
+            };
+
+            var createdRecord = await _donationRecordRepository.CreateAsync(donationRecord);
+
+            // Update blood inventory
+            var donorProfile = await _donorProfileRepository.GetByUserIdAsync(appointment.DonorUserId);
+            if (donorProfile != null)
+            {
+                var inventory = await _bloodInventoryRepository.GetByBloodGroupAsync(donorProfile.BloodGroup);
+                if (inventory != null)
+                {
+                    inventory.Units += 1;
+                    await _bloodInventoryRepository.UpdateAsync(inventory);
+                }
+            }
+
+            return ConvertDonationRecordToDto(createdRecord);
         }
 
         public async Task<DashboardStatsDto> GetDashboardStatsAsync()
@@ -157,10 +198,12 @@ namespace BackendDotNet.Services
                 RequestId = request.RequestId,
                 BloodGroup = request.BloodGroup,
                 UnitsRequested = request.UnitsRequested,
-                UrgencyLevel = request.UrgencyLevel,
+                Urgency = request.Urgency,
+                UrgencyLevel = request.Urgency,
                 Status = request.Status,
-                RequestDate = request.RequestDate,
-                RequiredDate = request.RequiredDate,
+                RequestDate = request.CreatedAt,
+                RequiredDate = request.CreatedAt,
+                CreatedAt = request.CreatedAt,
                 IsFulfilled = request.IsFulfilled,
                 HospitalName = request.Hospital?.HospitalProfile?.HospitalName ?? "Unknown",
                 ContactPerson = request.Hospital?.HospitalProfile?.ContactPerson ?? "Unknown",
@@ -181,7 +224,42 @@ namespace BackendDotNet.Services
                 ContactNumber = donor.ContactNumber,
                 Address = donor.Address,
                 IsEligible = donor.IsEligible,
-                LastDonationDate = donor.LastDonationDate
+                LastDonationDate = donor.LastDonationDate,
+                CreatedAt = donor.CreatedAt
+            };
+        }
+
+        private DonationAppointmentDto ConvertAppointmentToDto(DonationAppointment appointment)
+        {
+            return new DonationAppointmentDto
+            {
+                AppointmentId = appointment.AppointmentId,
+                Donor = new DonorSimpleDto
+                {
+                    UserId = appointment.DonorUserId,
+                    Email = "Unknown", // Would need to fetch from User repository
+                    FullName = "Unknown" // Would need to fetch from DonorProfile repository
+                },
+                AppointmentDate = appointment.AppointmentDate,
+                Status = appointment.Status,
+                CreatedAt = appointment.CreatedAt
+            };
+        }
+
+        private DonationRecordDto ConvertDonationRecordToDto(DonationRecord record)
+        {
+            return new DonationRecordDto
+            {
+                RecordId = record.RecordId,
+                Donor = new DonorSimpleDto
+                {
+                    UserId = record.DonorUserId,
+                    Email = "Unknown", // Would need to fetch from User repository
+                    FullName = "Unknown" // Would need to fetch from DonorProfile repository
+                },
+                DonationDate = record.DonationDate,
+                UnitsDonated = record.UnitsDonated,
+                CreatedAt = record.CreatedAt
             };
         }
     }

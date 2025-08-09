@@ -26,7 +26,7 @@ namespace BackendDotNet.Repositories
             return await _context.BloodRequests
                 .Include(br => br.Hospital)
                 .ThenInclude(h => h.HospitalProfile)
-                .OrderByDescending(br => br.RequestDate)
+                .OrderByDescending(br => br.CreatedAt)
                 .ToListAsync();
         }
 
@@ -36,7 +36,7 @@ namespace BackendDotNet.Repositories
                 .Include(br => br.Hospital)
                 .ThenInclude(h => h.HospitalProfile)
                 .Where(br => br.HospitalId == hospitalId)
-                .OrderByDescending(br => br.RequestDate)
+                .OrderByDescending(br => br.CreatedAt)
                 .ToListAsync();
         }
 
@@ -46,7 +46,7 @@ namespace BackendDotNet.Repositories
                 .Include(br => br.Hospital)
                 .ThenInclude(h => h.HospitalProfile)
                 .Where(br => br.Status == status)
-                .OrderByDescending(br => br.RequestDate)
+                .OrderByDescending(br => br.CreatedAt)
                 .ToListAsync();
         }
 
@@ -55,6 +55,11 @@ namespace BackendDotNet.Repositories
             _context.BloodRequests.Add(bloodRequest);
             await _context.SaveChangesAsync();
             return bloodRequest;
+        }
+
+        public async Task<BloodRequest> CreateAsync(BloodRequest bloodRequest)
+        {
+            return await AddAsync(bloodRequest);
         }
 
         public async Task<BloodRequest> UpdateAsync(BloodRequest bloodRequest)
@@ -94,7 +99,7 @@ namespace BackendDotNet.Repositories
                 .Include(br => br.Hospital)
                 .ThenInclude(h => h.HospitalProfile)
                 .Where(br => br.HospitalId == hospitalId)
-                .OrderByDescending(br => br.RequestDate)
+                .OrderByDescending(br => br.CreatedAt)
                 .ToListAsync();
         }
     }

@@ -8,11 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.WriteIndented = true;
+    });
 
 // Add Entity Framework
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -69,11 +75,18 @@ builder.Services.AddScoped<IDonorProfileRepository, DonorProfileRepository>();
 builder.Services.AddScoped<IHospitalProfileRepository, HospitalProfileRepository>();
 builder.Services.AddScoped<IBloodRequestRepository, BloodRequestRepository>();
 builder.Services.AddScoped<IBloodInventoryRepository, BloodInventoryRepository>();
+builder.Services.AddScoped<IDonationAppointmentRepository, DonationAppointmentRepository>();
+builder.Services.AddScoped<IDonationRecordRepository, DonationRecordRepository>();
 
 // Register services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IDonorService, DonorService>();
+builder.Services.AddScoped<IHospitalService, HospitalService>();
+
+// Add HttpContextAccessor for services that need current user context
+builder.Services.AddHttpContextAccessor();
 
 // Add AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
@@ -124,7 +137,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Blood Bank Management API V1");
-        c.RoutePrefix = string.Empty; // Set Swagger UI at the app's root
+        c.RoutePrefix = "swagger"; // Set Swagger UI at /swagger
     });
 }
 

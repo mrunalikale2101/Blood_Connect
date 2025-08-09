@@ -10,5 +10,11 @@ namespace BackendDotNet.DTOs.Response
         public string Status { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public bool IsFulfilled { get; set; }
+        public DateTime RequestDate { get; set; }
+        public DateTime RequiredDate { get; set; }
+        public string HospitalName { get; set; } = string.Empty;
+        public string ContactPerson { get; set; } = string.Empty;
+        public string ContactNumber { get; set; } = string.Empty;
+        public string UrgencyLevel { get; set; } = string.Empty;
     }
 }

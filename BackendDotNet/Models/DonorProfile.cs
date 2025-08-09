@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BackendDotNet.Models
 {
@@ -31,6 +32,16 @@ namespace BackendDotNet.Models
         [Column("last_donation_date")]
         public DateTime? LastDonationDate { get; set; }
 
+        [Column("age")]
+        public int Age { get; set; }
+
+        [Column("gender")]
+        [StringLength(10)]
+        public string Gender { get; set; } = string.Empty;
+
+        [Column("address")]
+        public string Address { get; set; } = string.Empty;
+
         [Column("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
@@ -42,6 +53,7 @@ namespace BackendDotNet.Models
 
         // Navigation property
         [ForeignKey("UserId")]
+        [JsonIgnore]
         public virtual User User { get; set; } = null!;
     }
 }

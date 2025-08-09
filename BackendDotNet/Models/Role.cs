@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BackendDotNet.Models
 {
@@ -16,6 +17,7 @@ namespace BackendDotNet.Models
         public string RoleName { get; set; } = string.Empty;
 
         // Navigation property
+        [JsonIgnore]
         public virtual ICollection<User> Users { get; set; } = new List<User>();
     }
 }

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BackendDotNet.Models
 {
@@ -31,6 +32,11 @@ namespace BackendDotNet.Models
         [Column("contact_person")]
         public string ContactPerson { get; set; } = string.Empty;
 
+        [Required]
+        [Column("contact_number")]
+        [StringLength(15)]
+        public string ContactNumber { get; set; } = string.Empty;
+
         [Column("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
@@ -42,6 +48,7 @@ namespace BackendDotNet.Models
 
         // Navigation property
         [ForeignKey("UserId")]
+        [JsonIgnore]
         public virtual User User { get; set; } = null!;
     }
 }

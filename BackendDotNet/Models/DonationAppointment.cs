@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BackendDotNet.Models
 {
@@ -28,6 +29,7 @@ namespace BackendDotNet.Models
 
         // Navigation property
         [ForeignKey("DonorUserId")]
+        [JsonIgnore]
         public virtual User Donor { get; set; } = null!;
     }
 }

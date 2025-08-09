@@ -10,5 +10,8 @@ namespace BackendDotNet.DTOs.Response
         public DateTime? LastDonationDate { get; set; }
         public bool IsEligible { get; set; }
         public DateTime CreatedAt { get; set; }
+        public int Age { get; set; }
+        public string Gender { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
     }
 }

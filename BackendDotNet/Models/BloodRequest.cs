@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BackendDotNet.Models
 {
@@ -29,18 +30,12 @@ namespace BackendDotNet.Models
         [Required]
         [Column("urgency")]
         [StringLength(20)]
-        public string UrgencyLevel { get; set; } = string.Empty;
+        public string Urgency { get; set; } = string.Empty;
 
         [Required]
         [Column("status")]
         [StringLength(20)]
         public string Status { get; set; } = string.Empty;
-
-        [Column("request_date")]
-        public DateTime RequestDate { get; set; } = DateTime.UtcNow;
-
-        [Column("required_date")]
-        public DateTime RequiredDate { get; set; }
 
         [Column("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -53,6 +48,7 @@ namespace BackendDotNet.Models
 
         // Navigation property
         [ForeignKey("HospitalUserId")]
+        [JsonIgnore]
         public virtual User Hospital { get; set; } = null!;
     }
 }

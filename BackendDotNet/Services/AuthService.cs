@@ -114,8 +114,21 @@ namespace BackendDotNet.Services
                 throw new UnauthorizedAccessException("Invalid email or password");
             }
 
-            var token = _jwtTokenProvider.GenerateToken(user);
-            var userDetails = await GetUserSpecificProfileAsync(user);
+            // Get role name directly
+            var role = await _roleRepository.GetByIdAsync(user.RoleId);
+            var roleName = role?.RoleName ?? "UNKNOWN";
+
+            var token = _jwtTokenProvider.GenerateToken(user, roleName);
+            
+            // Create simple user details without complex profile logic
+            var userDetails = new UserDetailsDto
+            {
+                UserId = user.UserId,
+                Email = user.Email,
+                RoleName = roleName,
+                IsActive = user.IsActive,
+                CreatedAt = user.CreatedAt
+            };
 
             return new JwtAuthResponse
             {
@@ -124,23 +137,50 @@ namespace BackendDotNet.Services
             };
         }
 
-        private async Task<object?> GetUserSpecificProfileAsync(User user)
+        private async Task<UserDetailsDto> GetUserSpecificProfileAsync(User user)
         {
-            var roleName = user.Role.RoleName;
+            // Get role name directly from the database to avoid circular references
+            var role = await _roleRepository.GetByIdAsync(user.RoleId);
+            var roleName = role?.RoleName ?? "UNKNOWN";
             
             if (roleName == "ROLE_DONOR")
             {
-                return await _donorProfileRepository.GetByUserIdAsync(user.UserId)
+                var donorProfile = await _donorProfileRepository.GetByUserIdAsync(user.UserId)
                     ?? throw new InvalidOperationException($"DonorProfile not found for userId: {user.UserId}");
+                
+                return new UserDetailsDto
+                {
+                    UserId = user.UserId,
+                    Email = user.Email,
+                    RoleName = roleName,
+                    IsActive = user.IsActive,
+                    CreatedAt = user.CreatedAt
+                };
             }
             else if (roleName == "ROLE_HOSPITAL")
             {
-                return await _hospitalProfileRepository.GetByUserIdAsync(user.UserId)
+                var hospitalProfile = await _hospitalProfileRepository.GetByUserIdAsync(user.UserId)
                     ?? throw new InvalidOperationException($"HospitalProfile not found for userId: {user.UserId}");
+                
+                return new UserDetailsDto
+                {
+                    UserId = user.UserId,
+                    Email = user.Email,
+                    RoleName = roleName,
+                    IsActive = user.IsActive,
+                    CreatedAt = user.CreatedAt
+                };
             }
 
-            // For Admin or other roles, return the basic user object
-            return user;
+            // For Admin or other roles, return basic user info
+            return new UserDetailsDto
+            {
+                UserId = user.UserId,
+                Email = user.Email,
+                RoleName = roleName,
+                IsActive = user.IsActive,
+                CreatedAt = user.CreatedAt
+            };
         }
     }
 }
