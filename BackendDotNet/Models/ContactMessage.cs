@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackendDotNet.Models
 {
-    [Table("contact_messages")]
     public class ContactMessage
     {
         [Key]
@@ -11,22 +10,21 @@ namespace BackendDotNet.Models
         public long MessageId { get; set; }
 
         [Required]
-        [Column("name")]
         public string Name { get; set; } = string.Empty;
 
         [Required]
-        [Column("email")]
+        [EmailAddress]
         public string Email { get; set; } = string.Empty;
 
         [Required]
-        [Column("message")]
+        [Column(TypeName = "TEXT")]
         public string Message { get; set; } = string.Empty;
 
         [Column("created_at")]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; }
 
         [Column("updated_at")]
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; }
 
         [Column("is_read")]
         public bool IsRead { get; set; } = false;

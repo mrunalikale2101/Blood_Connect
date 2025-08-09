@@ -1,4 +1,5 @@
 using BackendDotNet.DTOs.Request;
+using BackendDotNet.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackendDotNet.Controllers
@@ -7,13 +8,20 @@ namespace BackendDotNet.Controllers
     [Route("api/public")]
     public class PublicController : ControllerBase
     {
+        private readonly IPublicService _publicService;
+
+        public PublicController(IPublicService publicService)
+        {
+            _publicService = publicService;
+        }
+
         [HttpPost("contact")]
-        public ActionResult<string> SubmitContactMessage([FromBody] ContactMessageRequestDto requestDto)
+        public async Task<ActionResult<string>> SubmitContactMessage([FromBody] ContactMessageRequestDto requestDto)
         {
             try
             {
-                // TODO: Implement contact message service
-                return StatusCode(201, "Your message has been received. Thank you!");
+                var result = await _publicService.SaveContactMessageAsync(requestDto);
+                return StatusCode(201, result);
             }
             catch (Exception ex)
             {

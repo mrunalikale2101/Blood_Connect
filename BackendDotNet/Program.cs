@@ -77,6 +77,7 @@ builder.Services.AddScoped<IBloodRequestRepository, BloodRequestRepository>();
 builder.Services.AddScoped<IBloodInventoryRepository, BloodInventoryRepository>();
 builder.Services.AddScoped<IDonationAppointmentRepository, DonationAppointmentRepository>();
 builder.Services.AddScoped<IDonationRecordRepository, DonationRecordRepository>();
+builder.Services.AddScoped<IContactMessageRepository, ContactMessageRepository>();
 
 // Register services
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -84,6 +85,7 @@ builder.Services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IDonorService, DonorService>();
 builder.Services.AddScoped<IHospitalService, HospitalService>();
+builder.Services.AddScoped<IPublicService, PublicService>();
 
 // Add HttpContextAccessor for services that need current user context
 builder.Services.AddHttpContextAccessor();
